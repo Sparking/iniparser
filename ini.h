@@ -1,11 +1,11 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
 
 class ini {
 private:
     std::string ini_file;
-    std::map<std::string, std::map<std::string, std::string>> ini_config;
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> ini_config;
 public:
     ini(const std::string &path) : ini_file(path) {}
     ~ini(void) = default;

@@ -78,24 +78,24 @@ static int ini_parse_line(char *const line, union ini_parse_block &ipb)
     return line_type;
 }
 
-static map<string, map<string, string>>::iterator ini_create_section(
-        map<string, map<string, string>> &ini_config, const string &section)
+static unordered_map<string, unordered_map<string, string>>::iterator ini_create_section(
+        unordered_map<string, unordered_map<string, string>> &ini_config, const string &section)
 {
-    map<string, map<string, string>>::iterator it;
+    unordered_map<string, unordered_map<string, string>>::iterator it;
 
     it = ini_config.find(section);
     if (it != ini_config.end())
         return it;
 
-    ini_config.insert(pair<string, map<string, string>>(section,
-            map<string, string>()));
+    ini_config.insert(pair<string, unordered_map<string, string>>(section,
+            unordered_map<string, string>()));
     return ini_config.find(section);
 }
 
-static map<string, string>::iterator ini_create_key(
-        map<string, string> &section, const string &key, const string &value)
+static unordered_map<string, string>::iterator ini_create_key(
+        unordered_map<string, string> &section, const string &key, const string &value)
 {
-    map<string, string>::iterator vit;
+    unordered_map<string, string>::iterator vit;
 
     vit = section.find(key);
     if (vit != section.end()) {
@@ -112,7 +112,7 @@ bool ini::open(void)
     FILE *fp;
     char buff[2048];
     string current_section = "default";
-    map<string, map<string, string>>::iterator it;
+    unordered_map<string, unordered_map<string, string>>::iterator it;
 
     fp = fopen(ini_file.c_str(), "r");
     if (fp == NULL)
@@ -150,8 +150,8 @@ bool ini::open(void)
 string ini::get(const string &section, const string &key,
         const string &default_value)
 {
-    map<string, map<string, string>>::iterator it;
-    map<string, string>::iterator vit;
+    unordered_map<string, unordered_map<string, string>>::iterator it;
+    unordered_map<string, string>::iterator vit;
 
     it = ini_config.find(section);
     if (it == ini_config.end())
@@ -177,8 +177,8 @@ int ini::get(const string &section, const string &key,
 bool ini::set(const string &section, const string &key,
         const string &value)
 {
-    map<string, map<string, string>>::iterator it;
-    map<string, string>::iterator vit;
+    unordered_map<string, unordered_map<string, string>>::iterator it;
+    unordered_map<string, string>::iterator vit;
 
     it = ini_create_section(ini_config, section);
     if (it == ini_config.end())
@@ -196,7 +196,7 @@ bool ini::set(const string &section, const string &key,
 
 bool ini::erase(const string &section)
 {
-    map<string, map<string, string>>::iterator it;
+    unordered_map<string, unordered_map<string, string>>::iterator it;
 
     it = ini_config.find(section);
     if (it == ini_config.end())
@@ -209,8 +209,8 @@ bool ini::erase(const string &section)
 
 bool ini::erase(const string &section, const string &key)
 {
-    map<string, map<string, string>>::iterator it;
-    map<string, string>::iterator vit;
+    unordered_map<string, unordered_map<string, string>>::iterator it;
+    unordered_map<string, string>::iterator vit;
 
     it = ini_config.find(section);
     if (it == ini_config.end())
@@ -226,7 +226,7 @@ bool ini::erase(const string &section, const string &key)
 
 void ini::clear(void)
 {
-    map<string, map<string, string>>::iterator it;
+    unordered_map<string, unordered_map<string, string>>::iterator it;
 
     for (it = ini_config.begin(); it != ini_config.end(); ++it)
         it->second.clear();
@@ -236,8 +236,8 @@ void ini::clear(void)
 bool ini::save(const std::string &file)
 {
     FILE *fp;
-    map<string, map<string, string>>::iterator it;
-    map<string, string>::iterator vit;
+    unordered_map<string, unordered_map<string, string>>::iterator it;
+    unordered_map<string, string>::iterator vit;
 
     fp = fopen(file.c_str(), "w");
     if (fp == NULL)
