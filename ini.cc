@@ -152,7 +152,7 @@ string ini::get(const string &section, const string &key,
 {
     map<string, map<string, string>>::iterator it;
     map<string, string>::iterator vit;
-    
+
     it = ini_config.find(section);
     if (it == ini_config.end())
         return default_value;
@@ -167,7 +167,7 @@ int ini::get(const string &section, const string &key,
         const int &default_value)
 {
     string str = get(section, key, "default");
-    
+
     if (str.compare("default") == 0)
         return default_value;
 
